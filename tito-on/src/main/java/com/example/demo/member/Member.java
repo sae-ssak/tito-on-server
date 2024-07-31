@@ -3,6 +3,7 @@ package com.example.demo.member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,8 +20,6 @@ import lombok.ToString;
 public class Member {
 
 	@Id
-	private String userNum;
-
 	@Column(nullable = false)
 	private String email;
 

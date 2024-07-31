@@ -1,34 +1,29 @@
 package com.example.demo.springAi;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.springframework.ai.openai.OpenAiChatModel;
+import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @RequestMapping("/api")
 @RestController
 public class ChatController {
-	
-	private final OpenAiChatModel chatModel; 
-	
-	
 
-	public ChatController(OpenAiChatModel chatModel) {
-		this.chatModel = chatModel; 
-	}
-	
-	@GetMapping("/chat")
-	public Map <String ,String> chatResponse(@RequestParam String message) {
-		Map <String, String> responses = new HashMap<>(); 
-		
-		String openAiResponse = chatModel.call(message); 
-		responses.put("대답", openAiResponse);
-		return responses; 		
-	}
+    
+    private final ChatClient chatClient;
 
+    ChatController(ChatClient.Builder builder) {
+      this.chatClient = builder.build();
+    }
 
+    @GetMapping("/chat")
+    Map<String, String> completion(@RequestParam String message) {
+        return Map.of(
+                "답변",
+                chatClient.prompt().user(message).call().content()
+        );
+    }
 }
