@@ -17,6 +17,9 @@ public class Advice {
     private int advnum;
 
     @Column(nullable = false)
+    private String advice;
+
+    @Column(nullable = false)
     private int emotion;
 
 }

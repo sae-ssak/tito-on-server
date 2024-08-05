@@ -22,7 +22,7 @@ public class Board {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_Board")
     @SequenceGenerator(name = "seq_Board", sequenceName = "seq_Board", allocationSize = 1)
     @Column(name = "boardNum")
-    private long boardnum;
+    private int boardnum;
 
     @Column(nullable = false)
     private String title;
@@ -31,6 +31,6 @@ public class Board {
     @Column(nullable = false)
     private String content;
 
-    @Column(columnDefinition = "date", nullable = false)
-    private Date date;
+    @Column(name = "saveDate", nullable = false)
+    private Date savedate;
 }

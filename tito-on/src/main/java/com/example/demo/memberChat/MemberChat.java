@@ -10,6 +10,8 @@ import com.example.demo.member.Member;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.util.Date;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -21,15 +23,18 @@ public class MemberChat {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_MemberChat")
     @SequenceGenerator(name = "seq_MemberChat", sequenceName = "seq_MemberChat", allocationSize = 1)
-    private long chatNum;
+    @Column(name = "chatNum")
+    private long chatnum;
 
     @ManyToOne
-    @JoinColumn(name = "userNum", nullable = false)
+    @JoinColumn(name = "email", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @Column(name = "userNum")
-    private Member usernum;
+    private Member email;
 
     @Lob
     @Column(nullable = false)
     private String chat;
+
+    @Column(name = "saveDate", nullable = false)
+    private Date savedate;
 }

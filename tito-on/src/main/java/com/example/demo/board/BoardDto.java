@@ -10,8 +10,8 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BoardDto {
-    private long boardnum;
+    private int boardnum;
     private String title;
     private String content;
-    private Date date;
+    private Date savedate;
 }

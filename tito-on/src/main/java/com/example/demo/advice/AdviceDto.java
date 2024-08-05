@@ -9,5 +9,6 @@ import lombok.*;
 @AllArgsConstructor
 public class AdviceDto {
     private int advnum;
+    private String advice;
     private int emotion;
 }

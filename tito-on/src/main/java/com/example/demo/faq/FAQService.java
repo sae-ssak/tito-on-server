@@ -1,45 +1,41 @@
 package com.example.demo.faq;
 
-import com.example.demo.board.Board;
-import com.example.demo.board.BoardDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class FAQService {
 
-    @Autowired
-    private FAQRepository faqRepository;
+    private final FAQRepository faqRepository;
+
+    public FAQService(FAQRepository faqRepository) {
+        this.faqRepository = faqRepository;
+    }
 
     // 전체검색
-    public ArrayList<FAQDto> getAllFAQ() {
-        ArrayList<FAQ> list = (ArrayList<FAQ>) faqRepository.findAll();
-        ArrayList<FAQDto> dtoList = new ArrayList<>();
-        for (FAQ entity:list) {
-            dtoList.add(new FAQDto(entity.getQnum(), entity.getQuestion(), entity.getAnswer()));
-        }
-        return dtoList;
+    public List<FAQDto> getAllFAQ() {
+        return faqRepository.findAll().stream()
+                .map(entity -> new FAQDto(entity.getQnum(), entity.getQuestion(), entity.getAnswer()))
+                .collect(Collectors.toList());
     }
 
 
     // 질문 번호로 찾기
-    public Optional<FAQDto> getFAQById(int id) {
-        Optional<FAQ> entity = faqRepository.findById(id);
-        if (entity.isPresent()) {
-            FAQ faq = entity.get();
-            FAQDto dto = new FAQDto(faq.getQnum(), faq.getQuestion(), faq.getAnswer());
-            return Optional.of(dto);
-        } else {
-            return Optional.empty();
-        }
+    public FAQDto getFAQById(int id) {
+        return faqRepository.findById(id)
+                .map(entity -> new FAQDto(entity.getQnum(), entity.getQuestion(), entity.getAnswer()))
+                .orElseThrow(() -> new RuntimeException("FAQ not found with id " + id));
     }
 
     // 저장 및 수정
     public FAQDto saveFAQ(FAQDto dto) {
-        FAQ entity = faqRepository.save(new FAQ(dto.getQnum(), dto.getQuestion(), dto.getAnswer()));
+        FAQ entity = new FAQ(dto.getQnum(), dto.getQuestion(), dto.getAnswer());
+        entity = faqRepository.save(entity);
         return new FAQDto(entity.getQnum(), entity.getQuestion(), entity.getAnswer());
     }
 

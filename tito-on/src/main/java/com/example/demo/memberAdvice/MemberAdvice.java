@@ -7,6 +7,8 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.sql.Timestamp;
+import java.util.Date;
+
 import com.example.demo.advice.Advice;
 import com.example.demo.member.Member;
 
@@ -21,16 +23,16 @@ public class MemberAdvice {
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "userNum", nullable = false)
+    @JoinColumn(name = "email", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @Column(name = "userNum")
-    private Member usernum;
+    private Member email;
 
     @Id
     @ManyToOne
     @JoinColumn(name = "advNum", nullable = false)
     private Advice advnum;
 
-    @Column(name = "saveTime")
-    private Timestamp savetime;
+    @Column(name = "saveDate", nullable = false)
+    private Date savedate;
+
 }
